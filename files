@@ -2,6 +2,8 @@
 .bash_profile
 .bash_logout
 .emacs
-.ssh/authorized_keys
+.ssh/authorized_keys 
 .bashrc
 .zshrc
+ssh key id_ed25519.pub
+ssh key id_ed25519
