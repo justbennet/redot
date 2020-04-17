@@ -1,0 +1,7 @@
+.kshrc
+.bash_profile
+.bash_logout
+.emacs
+.ssh/authorized_keys
+.bashrc
+.zshrc
