@@ -1,5 +1,30 @@
 #!/usr/bin/python3
 
 from version import version
+from version import files
+from version import directories
+from os.path import isdir
+from os.path import isfile
+from os.path import expanduser
+from os.path import join as pathjoin
+from datetime import datetime
+
+homedir = expanduser('~')
+backupdir = pathjoin(homedir, 'redot', 'backups', datetime.now().strftime("%Y-%m-%d_%H:%M:%S"))
 
 print("This is version {} of the ARC-TS redot script\n".format(version))
+
+print("Attempting to backup these directories to\n  {}".format(backupdir))
+for directory in directories:
+    directory = pathjoin(homedir, directory)
+    if isdir(directory) == True:
+        print("    {:35} : exists".format(directory))
+
+print()
+
+print("Attempting to backup these files to\n  {}".format(backupdir))
+for file in files:
+    file = pathjoin(homedir, file)
+    # print("    {}".format(file))
+    if isfile(file) == True:
+        print("    {:35} : exists".format(file))
