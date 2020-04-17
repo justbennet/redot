@@ -1,0 +1,5 @@
+#!/usr/bin/python3
+
+from version import version
+
+print("This is version {} of the ARC-TS redot script\n".format(version))
