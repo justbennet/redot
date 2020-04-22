@@ -9,9 +9,9 @@ files = [
     ".zshrc",
 ]
 
-directories = [
-    ".ssh",
-    ".mozilla",
-    ".mozilla/plugins",
-    ".mozilla/extensions",
-]
+# directories = [
+#     ".ssh",
+#     ".mozilla",
+#     ".mozilla/plugins",
+#     ".mozilla/extensions",
+# ]

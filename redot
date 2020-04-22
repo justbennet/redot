@@ -1,30 +1,47 @@
 #!/usr/bin/python3
 
-from version import version
-from version import files
-from version import directories
+import sys
+import os
+from shutil import copy2 as copyfile
+from config import version
+from config import files
 from os.path import isdir
 from os.path import isfile
 from os.path import expanduser
 from os.path import join as pathjoin
 from datetime import datetime
 
-homedir = expanduser('~')
-backupdir = pathjoin(homedir, 'redot', 'backups', datetime.now().strftime("%Y-%m-%d_%H:%M:%S"))
+print("\nThis is version {} of the ARC-TS redot script\n".format(version))
 
-print("This is version {} of the ARC-TS redot script\n".format(version))
+homedir_name = expanduser('~')
+redot_time = datetime.now().strftime("%Y-%m-%d_%H:%M:%S")
+redotdir_name = pathjoin(homedir_name, 'redot', redot_time)
+skeldir_name = '/etc/skel'
 
-print("Attempting to backup these directories to\n  {}".format(backupdir))
-for directory in directories:
-    directory = pathjoin(homedir, directory)
-    if isdir(directory) == True:
-        print("    {:35} : exists".format(directory))
 
-print()
+def mk_redot_dir():
+    if not isdir(redotdir_name):
+        try:
+            os.makedirs(redotdir_name, exist_ok=True)
+            print("Created {}".format(redotdir_name))
+        except:
+            print("Failed to make {}.  Exiting.".format(redotdir_name))
 
-print("Attempting to backup these files to\n  {}".format(backupdir))
+
+mk_redot_dir()
+
+print("Backing up these files to\n  {}".format(redotdir_name))
 for file in files:
-    file = pathjoin(homedir, file)
-    # print("    {}".format(file))
-    if isfile(file) == True:
-        print("    {:35} : exists".format(file))
+    if isfile(pathjoin(homedir_name, file)) == True:
+        try:
+            copyfile(pathjoin(homedir_name, file), pathjoin(redotdir_name, file))
+            if isfile(pathjoin(skeldir_name, file)):
+#                print("Copying {} to {}".format(pathjoin(skeldir_name, file),
+#                                                pathjoin(homedir_name, file)))
+                copyfile(pathjoin(skeldir_name, file),
+                         pathjoin(homedir_name, file))
+                print("   Backup of {:60} : OK".format(file))
+        except:
+            print("    {:60} : FAILED".format(file))
+
+
