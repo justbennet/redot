@@ -16,7 +16,7 @@ Overall
 
 	▪	What is the user interaction?
 	▪	How will the script handle errors?
-	▪	Put description of the script in the README and comments to script describing each step
+
 
 
 Why redot is needed
