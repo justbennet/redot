@@ -1,5 +1,69 @@
-#!/usr/bin/python3
+import os
+import shutil
+import glob
+from subprocess import getoutput
+from datetime import datetime
 
-from version import version
+# Remove all existing modules that are loaded for the user. This will run the string "module purge" on the shell and put the stdout in the 'cmd' variable'
 
-print("This is version {} of the ARC-TS redot script\n".format(version))
+cmd = getoutput("module purge") 
+
+
+# Create a backup directory for the exiting user files. 
+
+now = datetime.now()
+newDirName = now.strftime("redot_backup_%Y_%m_%d_%H:%M:%S")
+print("Making directory " + newDirName)
+os.mkdir(newDirName)
+
+
+# Move all existing files in home directory into redot_backup
+
+userDir = od.getenv('HOME')
+
+if os.path.isdir(userDir) and os.path.isdir(newDirName):
+    # Iterate over all the files in source directory
+    for filePath in glob.glob(userDir + '\*'):
+        # Move each file to destination Directory
+        shutil.move(filePath, newDirName);
+else:
+    print(newDirName + "directory does not exist")
+
+
+# Copy the /etc/skel directory into the cleaned out user's home directory
+
+'''
+
+newUserhome = shutil.copytree("/etc/skel", userDir, dirs_exist_ok=True) # this only works in Pythion 3.8 :( 
+
+'''
+# Create new .ssh directory and populate
+
+'''
+
+username = $USER
+cluster = $CLUSTER_NAME
+ssh-keygen  -t rsa -b 4096 -C "${username}@${cluster}.arc-ts.umich.edu" -q -N "" -f "/home/$username/.ssh/id_rsa"
+cp /home/$username/.ssh/id_rsa.pub /home/$username/.ssh/authorized_keys
+chown -R $username:$username /home/$username
+chmod 700 /home/$username/.ssh
+chmod 600 /home/$username/.ssh/id_rsa
+
+'''
+
+
+
+
+
+
+
+'''
+
+QUESTIONS -
+
+1) why remove module purge?
+2) how to change copytree to put everything into user’s empty home directory. use simple cp -R commands instead of shutil and all that fancy stuff? 
+3) verify the process that was envisioned
+4) remove all old /etc/skel files from redot_backup?
+
+'''
