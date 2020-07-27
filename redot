@@ -52,18 +52,3 @@ chmod 600 /home/$username/.ssh/id_rsa
 '''
 
 
-
-
-
-
-
-'''
-
-QUESTIONS -
-
-1) why remove module purge?
-2) how to change copytree to put everything into user’s empty home directory. use simple cp -R commands instead of shutil and all that fancy stuff? 
-3) verify the process that was envisioned
-4) remove all old /etc/skel files from redot_backup?
-
-'''
