@@ -1,5 +1,64 @@
-#!/usr/bin/python3
+#!/usr/bin/python
 
+from os import makedirs
+from os.path import join as pathjoin
+from shutil import move
+from shutil import copy
 from version import version
+from datetime import datetime
+from subprocess import getoutput
+
+# Where to fine the lists of what to backup
+libdir = '/home/bennet/github/justbennet/redot'
+
+# Set a fake home directory for testing
+home = '/home/bennet/github/justbennet/redot/grundoon'
 
 print("This is version {} of the ARC-TS redot script\n".format(version))
+
+files = []
+dirs  = []
+
+with open(pathjoin(libdir, 'files')) as fp:
+    for line in fp:
+        files.append(line.strip())
+
+print("Got these filenames")
+print(files)
+
+with open(pathjoin(libdir, 'directories') as fp:
+    for line in fp:
+        dirs.append(line.strip())
+
+print("Got these directory names")
+print(dirs)
+
+# Set the name of the backup directory based on time of backup
+now = datetime.now()
+backup_dir = now.strftime("redot_backup_%Y_%m_%d_%H:%M:%S")
+makedirs(backup_dir)
+
+# Move whole directories to the backup folder
+move(pathjoin(home, '.mozilla'), backup_dir)
+move(pathjoin(home, '.ssh'), backup_dir)
+
+# Make new ssh keys
+
+# ~/.ssh should not be readable except by the user
+makedirs('.ssh', mode=0o700)
+
+#
+subprocess.getoutput("ssh-keygen -b 4096 -t ed25519 -N '' -f " + home + "/.ssh/id_ed25519")
+copy(pathjoin(home, '.ssh', 'id_ed25519.pub'), pathjoin(home, '.ssh', 'authorized_keys'))
+
+# Make new, empty .mozilla directories, which will create the parent, as well
+makedirs(pathjoin(home, '.mozilla', 'extensions')
+makedirs(pathjoin(home, '.mozilla', 'plugins')
+
+# Move individual files to backup folder and get fresh copies from /etc/skel
+for file in files:
+    move(pathjoin(home, file), pathjoin(home, backup_dir))
+    copy(pathjoin('/etc/skel', file), home)
+
+
+
