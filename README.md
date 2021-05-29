@@ -10,7 +10,7 @@ exception to this is the ssh key pair, if it exists, but the `authorized_keys` f
 would be put back to initial state.
 
 
-Summary of redot.py script - 
+Summary of redot.py script
 
 Overall
 
